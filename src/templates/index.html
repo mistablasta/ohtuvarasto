@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Varastot - Ohtuvarasto{% endblock %}
+
+{% block content %}
+<h1>Varastot</h1>
+
+{% if varastot %}
+    {% for id, data in varastot.items() %}
+    <div class="varasto-card">
+        <h3>{{ data.nimi or "Nimetön varasto" }}</h3>
+        <p><strong>Tilavuus:</strong> {{ data.varasto.tilavuus }}</p>
+        <p><strong>Saldo:</strong> {{ data.varasto.saldo }}</p>
+        <p><strong>Tilaa jäljellä:</strong> {{ data.varasto.paljonko_mahtuu() }}</p>
+        <a href="{{ url_for('edit', varasto_id=id) }}" class="btn btn-primary">Muokkaa</a>
+        <form action="{{ url_for('delete', varasto_id=id) }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Haluatko varmasti poistaa varaston?')">Poista</button>
+        </form>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>Ei varastoja. <a href="{{ url_for('create') }}">Luo ensimmäinen varasto!</a></p>
+{% endif %}
+{% endblock %}

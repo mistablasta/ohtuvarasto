@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Muokkaa varastoa - Ohtuvarasto{% endblock %}
+
+{% block content %}
+<h1>{{ data.nimi or "Nimetön varasto" }}</h1>
+
+<div class="varasto-card">
+    <p><strong>Tilavuus:</strong> {{ data.varasto.tilavuus }}</p>
+    <p><strong>Saldo:</strong> {{ data.varasto.saldo }}</p>
+    <p><strong>Tilaa jäljellä:</strong> {{ data.varasto.paljonko_mahtuu() }}</p>
+</div>
+
+<h2>Lisää tai ota tavaraa</h2>
+
+<form method="post">
+    <label for="maara">Määrä:</label>
+    <input type="number" id="maara" name="maara" step="0.1" min="0" value="0">
+
+    <br><br>
+    <button type="submit" name="action" value="lisaa" class="btn btn-success">Lisää varastoon</button>
+    <button type="submit" name="action" value="ota" class="btn btn-primary">Ota varastosta</button>
+</form>
+
+<br>
+<a href="{{ url_for('index') }}" class="btn btn-secondary">Takaisin</a>
+
+<form action="{{ url_for('delete', varasto_id=varasto_id) }}" method="post" style="display:inline; margin-left: 10px;">
+    <button type="submit" class="btn btn-danger" onclick="return confirm('Haluatko varmasti poistaa varaston?')">Poista varasto</button>
+</form>
+{% endblock %}
